@@ -3,12 +3,12 @@ using System.Web.Http;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Query;
 using AutoMapper;
-using SingleProjectEfDefault.Infrastructure;
-using SingleProjectEfDefault.Models;
-using SingleProjectEfDefault.Services.Interfaces;
-using SingleProjectEfDefault.Views;
+using ExampleWebApi.Infrastructure;
+using ExampleWebApi.Models;
+using ExampleWebApi.Services.Interfaces;
+using ExampleWebApi.Views;
 
-namespace SingleProjectEfDefault.Controllers
+namespace ExampleWebApi.Controllers
 {
     public class CommertialProposalController : ApiController
     {
