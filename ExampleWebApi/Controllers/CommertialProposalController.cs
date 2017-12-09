@@ -13,14 +13,12 @@ namespace ExampleWebApi.Controllers
     public class CommertialProposalController : ApiController
     {
         private readonly IRepositoryService<CommertialProposal> _repository;
-        private readonly IRepositoryService<User> _userRepositoryService;
         private readonly IMapper _mapper;
 
-        public CommertialProposalController(IRepositoryService<CommertialProposal> repository, IMapper mapper, IRepositoryService<User> userRepositoryService)
+        public CommertialProposalController(IRepositoryService<CommertialProposal> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
-            _userRepositoryService = userRepositoryService;
         }
 
         public PageResult<CommertialProposalView> GetAll(ODataQueryOptions<CommertialProposal> options)
@@ -34,16 +32,6 @@ namespace ExampleWebApi.Controllers
         public CommertialProposalView Get(int id)
         {
             return _mapper.Map<CommertialProposalView>(_repository.Find(id));
-        }
-
-        [HttpPost]
-        public string Test()
-        {
-            var user = new User{Age = 1, Name = "asda", Groups = new List<UserGroup>{new UserGroup{Name = "asdsa"}}};
-            var retrnedUser = _userRepositoryService.Insert(user);
-            var getedUser = _userRepositoryService.Find(1);
-            return "ok";
-
         }
     }
 }
