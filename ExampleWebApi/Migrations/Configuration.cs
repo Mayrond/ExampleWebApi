@@ -16,57 +16,60 @@ namespace ExampleWebApi.Migrations
 #endif
         }
 
-        protected override void Seed(Context context)
+        protected override void Seed(Context dbContext)
         {
-            AddUsers(context);
-            AddContractors(context);
-            AddCommertialProposal(context);
+            AddUsers(dbContext);
+            AddContractors(dbContext);
+            AddCommertialProposal(dbContext);
         }
 
-        private static void AddUsers(Context context)
+        private static void AddUsers(Context dbContext)
         {
             var admin = new UserGroup{Name = "Admin"};
             var manager = new UserGroup{Name = "Manager"};
-            context.UserGroups.AddOrUpdate(e => e.Name, admin);
-            context.UserGroups.AddOrUpdate(e => e.Name, manager);
-            context.SaveChanges();
+            dbContext.UserGroups.AddOrUpdate(e => e.Name, admin);
+            dbContext.UserGroups.AddOrUpdate(e => e.Name, manager);
+            dbContext.SaveChanges();
 
             var users = new List<User>
             {
                 new User{Name = "Vasya", Age = 10, Groups = new List<UserGroup>{manager}},
-                new User{Name = "Petya", Age = 20, Groups = new List<UserGroup>{manager, admin}},
                 new User{Name = "Alexandr", Age = 30, Groups = new List<UserGroup>{admin}},
             };
-            users.ForEach(u => context.Users.AddOrUpdate(e => new{e.Name, e.Age}, u));
-            context.SaveChanges();
+            for (int i = 0; i < 1000; i++)
+                users.Add(new User { Name = "Petya"+i, Age = 20+i, Groups = new List<UserGroup> { manager, admin } });
+            
+            users.ForEach(u => dbContext.Users.AddOrUpdate(e => new{e.Name, e.Age}, u));
+            dbContext.SaveChanges();
         }
-        private static void AddContractors(Context context)
+        private static void AddContractors(Context dbContext)
         {
-            var petya = context.Users.First(u => u.Name == "Petya");
-            var vasya = context.Users.First(u => u.Name == "Vasya");
-            var alexandr = context.Users.First(u => u.Name == "Alexandr");
+            var petya = dbContext.Users.First(u => u.Name == "Petya0");
+            var vasya = dbContext.Users.First(u => u.Name == "Vasya");
+            var alexandr = dbContext.Users.First(u => u.Name == "Alexandr");
             var contractors = new List<Contractor>
             {
                 new Contractor{Name = "Contractor#1", Firm = new Firm{Name = "Firm#1"}, Curators = new List<User>{petya, vasya}},
                 new Contractor{Name = "Contractor#2", Firm = new Firm{Name = "Firm#2"}, Curators = new List<User>{vasya, alexandr}},
                 new Contractor{Name = "Contractor#3", Firm = new Firm{Name = "Firm#3"}, Curators = new List<User>{alexandr}},
             };
-            contractors.ForEach(c => context.Contractors.AddOrUpdate(e => e.Name, c));
-            context.SaveChanges();
+            contractors.ForEach(c => dbContext.Contractors.AddOrUpdate(e => e.Name, c));
+            dbContext.SaveChanges();
         }
-        private static void AddCommertialProposal(Context context)
+        private static void AddCommertialProposal(Context dbContext)
         {
-            var contractor1 = context.Contractors.First(c => c.Name == "Contractor#1");
-            var contractor2 = context.Contractors.First(c => c.Name == "Contractor#2");
-            var contractor3 = context.Contractors.First(c => c.Name == "Contractor#3");
+            var contractor1 = dbContext.Contractors.First(c => c.Name == "Contractor#1");
+            var contractor2 = dbContext.Contractors.First(c => c.Name == "Contractor#2");
+            var contractor3 = dbContext.Contractors.First(c => c.Name == "Contractor#3");
             var commertialProposals = new List<CommertialProposal>
             {
                 new CommertialProposal{Number = "CP1", From = contractor1, To = contractor2},
-                new CommertialProposal{Number = "CP2", From = contractor2, To = contractor3},
                 new CommertialProposal{Number = "CP3", From = contractor1, To = contractor3}, 
             };
-            commertialProposals.ForEach(cp => context.CommertialProposals.AddOrUpdate(e => e.Number, cp));
-            context.SaveChanges();
+            for (int i = 0; i < 1000; i++)
+                commertialProposals.Add(new CommertialProposal { Number = "CP2"+i, From = contractor2, To = contractor3});
+            commertialProposals.ForEach(cp => dbContext.CommertialProposals.AddOrUpdate(e => e.Number, cp));
+            dbContext.SaveChanges();
         }
     }
 }

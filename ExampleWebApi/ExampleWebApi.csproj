@@ -152,6 +152,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CommertialProposalController.cs" />
+    <Compile Include="Services\Interfaces\IRepositoryCacheService.cs" />
+    <Compile Include="Services\RepositoryCacheService.cs" />
     <Compile Include="Views\Converters\BaseIdToEntityConverter.cs" />
     <Compile Include="Infrastructure\QueryableExtensions.cs" />
     <Compile Include="Global.asax.cs">

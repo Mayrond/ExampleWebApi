@@ -3,7 +3,7 @@ using ExampleWebApi.Models.General;
 using ExampleWebApi.Services.Interfaces;
 using ExampleWebApi.Views.General;
 
-namespace ExampleWebApi.Converters
+namespace ExampleWebApi.Views.Converters
 {
     public class BaseIdToEntityConverter<TEntity> : ITypeConverter<BaseId, TEntity> where TEntity : BaseEntity
     {

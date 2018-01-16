@@ -6,7 +6,6 @@ namespace ExampleWebApi.Views
     public class ContractorView : BaseId
     {
         public string Name { get; set; }
-        public ICollection<UserView> Curators { get; set; }
-
+        public List<UserView> Curators { get; set; }
     }
 }

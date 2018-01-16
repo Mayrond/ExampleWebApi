@@ -8,9 +8,15 @@ namespace ExampleWebApi.Infrastructure
         public Context()
             : base("MSSQL") 
         {
-            //            Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
-            Configuration.ProxyCreationEnabled = true;
-            Configuration.LazyLoadingEnabled = true;
+            Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
+            Configuration.ProxyCreationEnabled = false;
+            Configuration.LazyLoadingEnabled = false;
+            Configuration.AutoDetectChangesEnabled = false;
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<User> Users { get; set; }

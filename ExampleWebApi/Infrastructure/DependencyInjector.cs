@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
 using System.Web.Http;
@@ -25,7 +26,8 @@ namespace ExampleWebApi.Infrastructure
         public static IContainer RegisterServices(ContainerBuilder builder)
         {
             builder.RegisterGeneric(typeof(RepositoryService<>)).As(typeof(IRepositoryService<>)).InstancePerLifetimeScope();
-            builder.RegisterType<Context>().InstancePerLifetimeScope();
+            builder.RegisterType<Context>().As<DbContext>().InstancePerLifetimeScope();
+            builder.RegisterType<RepositoryCacheService>().As<IRepositoryCacheService>().SingleInstance();
 
             #region AutomapperRegistration
 

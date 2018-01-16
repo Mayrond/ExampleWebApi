@@ -10,6 +10,7 @@ using ExampleWebApi.Views;
 
 namespace ExampleWebApi.Controllers
 {
+    [RoutePrefix("api/CommertialProposal")]
     public class CommertialProposalController : ApiController
     {
         private readonly IRepositoryService<CommertialProposal> _repository;
@@ -36,14 +37,11 @@ namespace ExampleWebApi.Controllers
             return _mapper.Map<CommertialProposalView>(_repository.Find(id));
         }
 
-        [HttpPost]
-        public string Test()
+        [HttpGet]
+        [Route("Old")]
+        public PageResult<CommertialProposalView> Test(ODataQueryOptions<CommertialProposal> options)
         {
-            var user = new User{Age = 1, Name = "asda", Groups = new List<UserGroup>{new UserGroup{Name = "asdsa"}}};
-            var retrnedUser = _userRepositoryService.Insert(user);
-            var getedUser = _userRepositoryService.Find(1);
-            return "ok";
-
+            return _repository.GetAll().QueryableForODataOld<CommertialProposal, CommertialProposalView>(options, Request);
         }
     }
 }
